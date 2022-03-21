@@ -1,0 +1,3 @@
+# SchedMaster
+
+SchedMaster is a class scheduling utility FOR students and university faculty WHO need a means of planning and registering for classes during the school year. THE SchedMaster system  is a utility which presents students and faculty with configurable and tailored planning options  that allow for students to pick the most beneficial schedule for them to avoid running into time  conflicts. UNLIKE other scheduling and registration utilities, the SchedMaster system is  particularly focused on ensuring that students are able to attend all the classes that make up  their curriculum or are required for their major. OUR product enables the creation of schedules  which are tailored to meet the needs of both students and faculty, and are realistically attendable.
