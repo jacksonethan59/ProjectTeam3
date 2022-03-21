@@ -63,8 +63,11 @@ for line in lines:
                 # courses MAY have multiple professors listed,
                 # for the purposes of this project we will disregard the Primary designation
                 # separate professors with ,
+                instructors = line[22:-6]
+                if instructors[0:5] == '<ABBR':
+                    instructors = 'TBD'
 
-                course[course_i] = re.sub(" \(+.*\)", "", line[22:-6], 1)
+                course[course_i] = re.sub(" \(+.*\)", "", instructors, 1)
 
             elif course_i == 17:
                 location = line[22:-6]
