@@ -1,9 +1,6 @@
 import pandas as pd
 import re
 
-# KNOWN ISSUES:
-# double space before professor last name,
-
 file = open('courses_html.txt')
 lines = file.readlines()
 file.close()
@@ -67,7 +64,11 @@ for line in lines:
                 if instructors[0:5] == '<ABBR':
                     instructors = 'TBD'
 
-                course[course_i] = re.sub(" \(+.*\)", "", instructors, 1)
+                # remove (Primary) tag behind professors name
+                instructors = re.sub(" \(+.*\)", "", instructors, 1)
+
+                # fix multiple space issue before professors last names
+                course[course_i] = re.sub(" + ", " ", instructors, 1)
 
             elif course_i == 17:
                 location = line[22:-6]
