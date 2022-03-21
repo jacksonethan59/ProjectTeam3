@@ -89,4 +89,4 @@ for line in lines:
 
 print(df)
 
-df.to_csv('courses.csv', '\t')
+df.to_csv('courses.csv', '\t', index=False)
