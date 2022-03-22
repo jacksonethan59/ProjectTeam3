@@ -29,7 +29,7 @@ for line in lines:
             course['Subject'] = line[51:-6]
             # print(course["Subject"])
 
-        # if line starts with this phrase it does contains table header information
+        # if a line starts with this phrase it contains table header information
         # since the table headers always stay the same, there is no reason to parse these lines
         elif line[0:20] == '<th CLASS="ddheader"' or course_i == -1:
             continue
