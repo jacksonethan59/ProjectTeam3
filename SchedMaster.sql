@@ -9,7 +9,8 @@ CREATE TABLE `courses` (
 
 CREATE TABLE `prerequisites` (
   `course_id` varchar(255),
-  `prereq_id` varchar(255)
+  `prereq_id` varchar(255),
+  `min_grade` varchar(255)
 );
 
 CREATE TABLE `sections` (
@@ -29,8 +30,28 @@ CREATE TABLE `sections` (
   `attributes` text
 );
 
+CREATE TABLE `students` (
+  `id` varchar(255) PRIMARY KEY,
+  `first_name` varchar(255),
+  `last_name` varchar(255),
+  `major` varchar(255),
+  `minor` varchar(255),
+  `required_hours` int
+);
+
+CREATE TABLE `course_registrations` (
+  `student_id` varchar(255),
+  `crn` int,
+  `semester` varchar(255),
+  `grade_received` float
+);
+
 ALTER TABLE `prerequisites` ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 ALTER TABLE `prerequisites` ADD FOREIGN KEY (`prereq_id`) REFERENCES `courses` (`id`);
 
 ALTER TABLE `sections` ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+
+ALTER TABLE `course_registrations` ADD FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
+
+ALTER TABLE `course_registrations` ADD FOREIGN KEY (`crn`) REFERENCES `sections` (`crn`);
