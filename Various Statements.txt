@@ -1,0 +1,62 @@
+User inputs a student ID and semester:
+
+	<form action = "filename.php" method = "post" >
+		
+		<p>Enter your student ID:
+		<input type = "text" size = "20" name = "id">
+		</p>
+		<p>Semester:
+		(Dropdown menu with semester options - 
+		chosen semester will be stored as $sem)
+		</p>
+		<p>
+		<input type = "submit" value = "Submit">
+		</p>
+	
+	</form>
+
+List of classes the student has already taken:
+
+	select sec.(info), c.(info)
+	from sections sec, course_registrations cr, students s
+	where s.id = cr.student_id and cr.crn = sec.crn
+	and sec.course_id = c.id and cr.semester != $sem
+
+List of classes the student is enrolled for this semester:
+
+	select sec.(info), c.(info)
+	from sections sec, course_registrations cr, students s
+	where s.id = cr.student_id and cr.crn = sec.crn
+	and sec.course_id = c.id and cr.semester = $sem
+
+Scheduling conflict occurs when the days and times of 2 classes overlap.
+
+Determine if 2 courses times overlap:
+
+	if ((course1.startTime < course2.startTime and course1.endTime > course2.startTime)
+	or (course1.startTime > course2.startTime and course1.startTime < course2.endTime)
+	or course1.startTime = course2.startTime or course1.endTime = course2.endTime)
+		timeOverlap = true
+
+Determine if 2 course days overlap:
+
+	for day in course1.days:
+		if day in course2.days: dayOverlap = true
+
+If this were Python code:
+
+def conflictsWith(course1, course2):
+	if ((course1.startTime < course2.startTime and course1.endTime > course2.startTime)
+	or (course1.startTime > course2.startTime and course1.startTime < course2.endTime)
+	or course1.startTime = course2.startTime or course1.endTime = course2.endTime):
+		timeOverlap = true
+	for day in course1.days:
+		if (day in course2.days): dayOverlap = true
+	if (timeOverlap and dayOverlap): return true
+	else: return false
+
+def nonconflicting(listA, listB, listC):
+	for course1 in listA:
+		for course2 in listB:
+			if ((not course1.conflictsWith(course2)) and course2 not in listC):
+				listC.append(course2)
