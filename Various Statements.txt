@@ -60,7 +60,7 @@ def nonconflicting(studCourses, allCourses):
 	nonconf = []
 	for course1 in studCourses:
 		for course2 in allCourses:
-			if ((course1.conflictsWith(course2)):
+			if ((conflictsWith(course1, course2)):
 				if course2 not in conf:
 					conf.append(course2)
 			
