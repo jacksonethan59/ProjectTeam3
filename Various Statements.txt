@@ -31,14 +31,14 @@ List of classes the student is enrolled for this semester:
 
 Scheduling conflict occurs when the days and times of 2 classes overlap.
 
-Determine if 2 courses times overlap:
+Determine if 2 courses' times overlap:
 
 	if ((course1.startTime < course2.startTime and course1.endTime > course2.startTime)
 	or (course1.startTime > course2.startTime and course1.startTime < course2.endTime)
 	or course1.startTime = course2.startTime or course1.endTime = course2.endTime)
 		timeOverlap = true
 
-Determine if 2 course days overlap:
+Determine if 2 courses' days overlap:
 
 	for day in course1.days:
 		if day in course2.days: dayOverlap = true
