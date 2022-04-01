@@ -48,15 +48,23 @@ If this were Python code:
 def conflictsWith(course1, course2):
 	if ((course1.startTime < course2.startTime and course1.endTime > course2.startTime)
 	or (course1.startTime > course2.startTime and course1.startTime < course2.endTime)
-	or course1.startTime = course2.startTime or course1.endTime = course2.endTime):
+	or course1.startTime == course2.startTime or course1.endTime == course2.endTime):
 		timeOverlap = true
 	for day in course1.days:
 		if (day in course2.days): dayOverlap = true
 	if (timeOverlap and dayOverlap): return true
 	else: return false
 
-def nonconflicting(listA, listB, listC):
+def nonconflicting(listA, listB):
+	conf = []
+	nonconf = []
 	for course1 in listA:
 		for course2 in listB:
-			if ((not course1.conflictsWith(course2)) and course2 not in listC):
-				listC.append(course2)
+			if ((course1.conflictsWith(course2)):
+				if course2 not in conf:
+					conf.append(course2)
+			
+	for course in listB:
+		if course not in conf:
+			nonconf.append(course)
+	return nonconf
