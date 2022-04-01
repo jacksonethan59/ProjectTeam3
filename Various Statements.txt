@@ -55,16 +55,16 @@ def conflictsWith(course1, course2):
 	if (timeOverlap and dayOverlap): return true
 	else: return false
 
-def nonconflicting(listA, listB):
+def nonconflicting(studCourses, allCourses):
 	conf = []
 	nonconf = []
-	for course1 in listA:
-		for course2 in listB:
+	for course1 in studCourses:
+		for course2 in allCourses:
 			if ((course1.conflictsWith(course2)):
 				if course2 not in conf:
 					conf.append(course2)
 			
-	for course in listB:
+	for course in allCourses:
 		if course not in conf:
 			nonconf.append(course)
 	return nonconf
