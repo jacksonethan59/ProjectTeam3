@@ -34,10 +34,22 @@ def parse_time(time, start):
     if time[6:8] == 'pm':
         hours += 12
 
-    parsed_time = str(hours) +':'+ time[3:5] + ":00"
+    parsed_time = '"' + str(hours) +':'+ time[3:5] + ':00"'
     # print(parsed_time, start)
 
     return parsed_time
+
+
+def parse_date(date, start):
+    if (date == "TBD"):
+        return "null"
+    elif (start):
+        date = date[:5]
+    else:
+        date = date[6:]
+    
+    date = "2022-" + date[:2] + "-" + date[3:]
+    return date
 
 
 with open('courses.tsv', newline='') as tsvfile:
@@ -45,8 +57,10 @@ with open('courses.tsv', newline='') as tsvfile:
     next(reader)
     for row in reader:
         start_time = parse_time(row[9], True) 
-        end_time = parse_time(row[9], False) 
-        sections_sql += '\n(' + row[1] + ', "' + row[2] + row[3]  + '", ' + row[4] + ', "' + row[16] + '", "' + row[5] + '", "' + row[18] + '", ' + start_time + ', ' + end_time
+        end_time = parse_time(row[9], False)
+        start_date = parse_date(row[17], True)
+        end_date = parse_date(row[17], False) 
+        sections_sql += '\n(' + row[1] + ', "' + row[2] + row[3]  + '", ' + row[4] + ', "' + row[16] + '", "' + row[5] + '", "' + row[18] + '", ' + start_time + ', ' + end_time + ', "' + start_date +'", "' + end_date + '", "' + row[8] + '", ' + row[10] + ', ' + row[11] + ', "' + row[19] + '"),'
         if current_course == row[2] + row[3]:
             continue
         else:
@@ -58,7 +72,7 @@ with open('courses.tsv', newline='') as tsvfile:
 
 # replace last comma with semi colon
 courses_sql = courses_sql[:-1] + ';'
-#sections_sql = sections_sql[:-1] + ';'
+sections_sql = sections_sql[:-1] + ';'
 
 #print(courses_sql)
 #print (sections_sql)
@@ -67,3 +81,9 @@ courses_sql = courses_sql[:-1] + ';'
 f = open ("courses.sql", "w")
 f.write(courses_sql)
 f.close()
+print('Wrote courses.sql')
+
+f = open ("sections.sql", "w")
+f.write(sections_sql)
+f.close()
+print('Wrote sections.sql')
