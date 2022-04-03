@@ -91,3 +91,12 @@ print('Wrote sections.sql')
 
 # create single file that can create all elements of the database
 # including creating the tables and populating them
+with open('data/SchedMaster.sql', 'r') as template, open('SchedMaster_full.sql', 'w') as full:
+
+    # read content from first file
+    for line in template:
+
+        # write content to second file
+        full.write(line)
+
+    full.write("\n" + courses_sql + "\n\n" + sections_sql + "\n")

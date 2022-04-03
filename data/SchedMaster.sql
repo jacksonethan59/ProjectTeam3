@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS schedmaster;
+
+CREATE DATABASE schedmaster;
+
+USE schedmaster;
+
 CREATE TABLE `courses` (
   `id` varchar(255) PRIMARY KEY,
   `title` varchar(255),
