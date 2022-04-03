@@ -21,12 +21,13 @@ def parse_time(time, start):
     else:
         time = time[9:]
 
-    if time[6:8] == 'pm':
-        offset = 12
+    # if time[6:8] == 'pm' and time[:2] != '12':
+    #     print(time[:2])
+    #     offset = 12
 
     hours_str = time[0:2]
     hours = int(hours_str)
-    if time[6:8] == 'pm':
+    if time[6:8] == 'pm' and time[:2] != '12':
         hours += 12
 
     parsed_time = '"' + str(hours) + ':' + time[3:5] + ':00"'
@@ -100,3 +101,4 @@ with open('data/SchedMaster.sql', 'r') as template, open('SchedMaster_full.sql',
         full.write(line)
 
     full.write("\n" + courses_sql + "\n\n" + sections_sql + "\n")
+    print('Wrote SchedMaster_full.sql')
