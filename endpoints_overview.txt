@@ -1,0 +1,29 @@
+A brief overview of the expected endpoints needed for the backend api for this Project.
+
+NOTE: this is only the endpoints needed for the essential core of the app. Most additional planned features will require more endpoints (or updates to the existing ones)
+
+AUTH 
+ - POST /login
+
+USER
+ - GET /user BODY: user_id, authorization
+    returns info about the supplied user id to be used on the home page
+     - First Name, Last name, major, hours taken, hours remaining, whether schedule has already been created
+
+ - GET /schedule BODY: user_id, authorization
+    returns the supplied users schedule for the upcoming semester (in our project this will always be Spring 2022)
+
+ - GET /course_history BODY: user_id, authorization
+    returns the courses that the user has previously taken, when they took it, and the grade they recieved for the course_history
+
+SCHEDULING
+ - POST /generate BODY: user_id, authorization
+    generates a schedule for the upcoming semester for the supplied student, returns the generated schedule
+
+ - POST /register BODY: user_id, schedule, authorization
+    registers the student for the supplied schedule, returns success or error code upon completion
+
+ - POST /unregister BODY: user_id, authorization
+    unregisters the supplied student from all courses, returns success or error code upon completion
+
+ 
