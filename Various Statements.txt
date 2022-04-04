@@ -6,8 +6,9 @@ User inputs a student ID and semester:
 		<input type = "text" size = "20" name = "id">
 		</p>
 		<p>Semester:
-		(Dropdown menu with semester options - 
-		chosen semester will be stored as $sem)
+		<select name = "sem">
+		(Dropdown menu with semester options)
+		</select>
 		</p>
 		<p>
 		<input type = "submit" value = "Submit">
