@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -33,30 +34,40 @@ class UserInDB(User):
 class UserIn(User):
     password: str
 
+
+class Student(User):
+    first_name: str
+    last_name: str
+    major: str
+    credit_hours: int
+
+
 app = FastAPI()
 
 mydb = mysql.connector.connect(
-  host=os.getenv("DBHOST"),
-  user=os.getenv("DBUSER"),
-  password=os.getenv("DBPASSWORD"),
-  database=os.getenv("DB")
+    host=os.getenv("DBHOST"),
+    user=os.getenv("DBUSER"),
+    password=os.getenv("DBPASSWORD"),
+    database=os.getenv("DB")
 )
 mycursor = mydb.cursor()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES =  int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
 
 def get_password_hash(password):
     return pwd_context.hash(password)
 
-# TODO: make function asyncronous
+
 def get_user(username):
     # query = users.select().where(users.c.username == username)
     # user = await database.fetch_one(query)
@@ -67,6 +78,7 @@ def get_user(username):
     my_user = UserInDB(username=user[0], hashed_password=user[1])
     return my_user
 
+
 def authenticate_user(username: str, password: str):
     user = get_user(username)
     if not user:
@@ -74,6 +86,7 @@ def authenticate_user(username: str, password: str):
     if not verify_password(password, user.hashed_password):
         return False
     return user
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -85,7 +98,8 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+
+def get_student_info(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -99,14 +113,20 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = get_user(username=token_data.username)
-    if user is None:
+
+    sql_string = 'SELECT * FROM students WHERE id = %s'
+    mycursor.execute(sql_string, [token_data.username])
+    student = mycursor.fetchone()
+    print(student)
+
+    if student is None:
         raise credentials_exception
-    return user
+    return student
+
 
 @app.post("/token", response_model=Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user =  authenticate_user(form_data.username, form_data.password)
+    user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -120,7 +140,11 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+@app.get("/students/overview/")
+async def get_student_info(student_info: Student = Depends(get_student_info)):
+    return student_info
+
+
 @app.get("/")
 async def root():
     return {"message": "Home"}
-
