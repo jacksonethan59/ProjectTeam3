@@ -21,9 +21,6 @@ def parse_time(time, start):
     else:
         time = time[9:]
 
-    # if time[6:8] == 'pm' and time[:2] != '12':
-    #     print(time[:2])
-    #     offset = 12
 
     hours_str = time[0:2]
     hours = int(hours_str)

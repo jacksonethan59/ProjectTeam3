@@ -41,7 +41,6 @@ CREATE TABLE `students` (
   `first_name` varchar(255),
   `last_name` varchar(255),
   `major` varchar(255),
-  `minor` varchar(255),
   `required_hours` int
 );
 
@@ -52,15 +51,45 @@ CREATE TABLE `course_registrations` (
   `grade_received` float
 );
 
+CREATE TABLE `users` (
+  `user_id` varchar(255) PRIMARY KEY,
+  `password` varchar(255)
+);
+
+CREATE TABLE `majors` (
+  `id` varchar(255) PRIMARY KEY,
+  `subject` varchar(255)
+);
+
+CREATE TABLE `major_course_plans` (
+  `major_id` varchar(255),
+  `course_id` varchar(255),
+  `min_grade` varchar(255)
+);
+
 ALTER TABLE `prerequisites` ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 ALTER TABLE `prerequisites` ADD FOREIGN KEY (`prereq_id`) REFERENCES `courses` (`id`);
 
 ALTER TABLE `sections` ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
+ALTER TABLE `students` ADD FOREIGN KEY (`id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `students` ADD FOREIGN KEY (`major`) REFERENCES `majors` (`id`);
+
 ALTER TABLE `course_registrations` ADD FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
 
 ALTER TABLE `course_registrations` ADD FOREIGN KEY (`crn`) REFERENCES `sections` (`crn`);
+
+ALTER TABLE `major_course_plans` ADD FOREIGN KEY (`major_id`) REFERENCES `majors` (`id`);
+
+ALTER TABLE `major_course_plans` ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+
+-- Test user data
+INSERT INTO `majors` VALUES ("CPSC", "Computer Science");
+INSERT INTO `users` VALUES ("aaa111", "$2b$12$IMuOiATuMfeMgt6BQ3WYr.As27eE5NwHrOTHynJTTFaPOGv3aFBwO");
+INSERT INTO `students` VALUES ("aaa111", "John", "Doe", "CPSC", 120);
+
 
 INSERT INTO `courses` VALUES
 ("ACC2000", "Accounting and Financial Reporting: A User's Perspective", "Accounting", "ACC", "2000", 3),
