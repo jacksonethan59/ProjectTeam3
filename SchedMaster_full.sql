@@ -85,6 +85,11 @@ ALTER TABLE `major_course_plans` ADD FOREIGN KEY (`major_id`) REFERENCES `majors
 
 ALTER TABLE `major_course_plans` ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
+-- Test user data
+INSERT INTO `majors` VALUES ("CPSC", "Computer Science");
+INSERT INTO `users` VALUES ("aaa111", "$2b$12$IMuOiATuMfeMgt6BQ3WYr.As27eE5NwHrOTHynJTTFaPOGv3aFBwO");
+INSERT INTO `students` VALUES ("aaa111", "John", "Doe", "CPSC", 120);
+
 
 INSERT INTO `courses` VALUES
 ("ACC2000", "Accounting and Financial Reporting: A User's Perspective", "Accounting", "ACC", "2000", 3),
