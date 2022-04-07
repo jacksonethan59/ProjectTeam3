@@ -35,13 +35,13 @@ class CourseSect(object):
         else: return False
         
 class Student(object):
-    def __init__(self, id, firstName, lastName, major, minor):
+    def __init__(self, id, firstName, lastName, major, minor, requiredHours):
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.major = major
         self.minor = minor
-        self.requiredHours = major.requiredHours
+        self.requiredHours = requiredHours
         
 class Registration(object):
     def __init__(self, studentId, crn, semester, gradeRcvd):
