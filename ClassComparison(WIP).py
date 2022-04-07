@@ -1,5 +1,10 @@
 class Course(object):
-    def __init__(self, creditHours, preReqsOf):
+    def __init__(self, id, title, subject, subjectAbbr, courseNum, creditHours, preReqsOf):
+        self.id = if
+        self.title = title
+        self.subject = subject
+        self.subjectAbbr = subjectAbbr
+        self.courseNum = courseNum
         self.creditHours = creditHours
         self.preReqOf = preReqsOf
         self.classValue = 0
