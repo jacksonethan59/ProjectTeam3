@@ -20,14 +20,14 @@ List of classes the student has already taken:
 
 	select sec.(info), c.(info)
 	from sections sec, course_registrations cr, students s
-	where s.id = cr.student_id and cr.crn = sec.crn
+	where s.id = $id and s.id = cr.student_id and cr.crn = sec.crn
 	and sec.course_id = c.id and cr.semester != $sem
 
 List of classes the student is enrolled for this semester:
 
 	select sec.(info), c.(info)
 	from sections sec, course_registrations cr, students s
-	where s.id = cr.student_id and cr.crn = sec.crn
+	where s.id = $id and s.id = cr.student_id and cr.crn = sec.crn
 	and sec.course_id = c.id and cr.semester = $sem
 
 Scheduling conflict occurs when the days and times of 2 classes overlap.
@@ -69,3 +69,14 @@ def nonconflicting(studCourses, allCourses):
 		if course not in conf:
 			nonconf.append(course)
 	return nonconf
+
+To get a student's required hours:
+select sum(distinct c.credit_hours)
+from sections sec, course_registrations cr, students s
+where s.id = (student ID) and s.id cr.student_id
+and cr.crn = sec.crn and sec.course_id = c.id
+
+Using read_query function from Python-SQL website:
+connection = create_db_connection("localhost", "root", pw, db)
+results = read_query(connection, q1)
+stud.requiredHours = stud.maj.requiredHours - results
