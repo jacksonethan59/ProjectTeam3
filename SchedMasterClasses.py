@@ -21,7 +21,6 @@ class CourseSect(object):
         self.cap = cap
         self.registered = registered
         self.attributes = attributes
-        # Note that the final version of this class will have other fields too.
     def conflictsWith(self, course):
         timeOverlap = False
         dayOverlap = False
