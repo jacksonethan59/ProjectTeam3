@@ -7,12 +7,12 @@ INSERT INTO schedmaster.prerequisites (course_id, prereq_id, min_grade) VALUES
 
 ('CPSC3200','CPSC2100','C'),
 
-('CPSC3500','CPSC2100','C'),
+('CPSC3600','CPSC2100','C'),
 
-('CPSC4200','CPSC3200','C'),
-('CPSC4200','CPSC3500','C'),
+('CPSC4240','CPSC3200','C'),
+('CPSC4240','CPSC3600','C'),
 
-('CPSC4500','CPSC4200','C');
+('CPSC4600','CPSC4240','C');
 
 
 
